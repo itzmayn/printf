@@ -1,31 +1,33 @@
+
 #include "main.h"
 
-unsigned char handle_flags(const char *flag, char *index);
-unsigned char handle_length(const char *modifier, char *index);
-int handle_width(va_list args, const char *modifier, char *index);
-int handle_precision(va_list args, const char *modifier, char *index);
+unsigned char handle_flags(const char *flag,
+		char *index);
+unsigned char handle_length(const char *modifier,
+		char *index);
+int handle_width(va_list args, const char *modifier,
+		char *index);
+int handle_precision(va_list args, const char *modifier,
+		char *index);
 unsigned int (*handle_specifiers(const char *specifier))(va_list, buffer_t *,
 		unsigned char, int, int, unsigned char);
 
 /**
- * handle_flags - handle_flags
- * @flag: @flag
- * @index: index
- * Return: return 0
+ * handle_flags - Matches flags
+ * @flag: pointer of flags.
+ * @index: index counter.
+ * Return: If flag characters are matched - a corresponding value.
+ *         Otherwise - 0.
  */
-
 unsigned char handle_flags(const char *flag, char *index)
 {
 	int i, j;
 	unsigned char ret = 0;
-	flag_t flags[] = {
-		{'+', PLUS},
-		{' ', SPACE},
-		{'#', HASH},
-		{'0', ZERO},
-		{'-', NEG},
-		{0, 0}
-	};
+
+	 flag_t flags[] = {{'+', PLUS}, {' ', SPACE},
+		 {'#', HASH},
+		 {'0', ZERO}, {'-', NEG}, {0, 0}
+	 };
 
 	for (i = 0; flag[i]; i++)
 	{
@@ -38,7 +40,6 @@ unsigned char handle_flags(const char *flag, char *index)
 					ret = flags[j].value;
 				else
 					ret |= flags[j].value;
-				break;
 			}
 		}
 		if (flags[j].value == 0)
@@ -47,16 +48,13 @@ unsigned char handle_flags(const char *flag, char *index)
 	return (ret);
 }
 
-
-
-
 /**
- * handle_length - handle_length
- * @modifier: @modifier
+ * handle_length - Matches length modifiers
+ * @modifier: pointer.
  * @index: index
- * Return: return 0
+ * Return: If a lenth modifier is matched - its corresponding value.
+ *         Otherwise - 0.
  */
-
 unsigned char handle_length(const char *modifier, char *index)
 {
 	if (*modifier == 'h')
@@ -70,17 +68,17 @@ unsigned char handle_length(const char *modifier, char *index)
 		return (LONG);
 	}
 	return (0);
+
 }
 
-
 /**
- * handle_width - handle_width
- * @args: arguments
- * @modifier: modifier
- * @index: index
- * Return: return
+ * handle_width - Matches a width modifier
+ * @args: arguments.
+ * @modifier: pointer
+ * @index: index.
+ * Return: If a width modifier is matched - its value.
+ *         Otherwise - 0.
  */
-
 int handle_width(va_list args, const char *modifier, char *index)
 {
 	int value = 0;
@@ -93,9 +91,9 @@ int handle_width(va_list args, const char *modifier, char *index)
 			value = va_arg(args, int);
 			if (value <= 0)
 				return (0);
+
 			return (value);
 		}
-
 		value *= 10;
 		value += (*modifier - '0');
 		modifier++;
@@ -104,11 +102,13 @@ int handle_width(va_list args, const char *modifier, char *index)
 }
 
 /**
- * handle_precision - handle_precision
- * @args: argument
- * @modifier: modifier
- * @index: index
- * Return: percision
+ * handle_precision - Matches a precision modifier.
+ * @args: arguments.
+ * @modifier: pointer
+ * @index: index.
+ * Return: If a precision modifier is matched - its value.
+ *         If the precision modifier is empty, zero, or negative - 0.
+ *         Otherwise - -1.
  */
 
 int handle_precision(va_list args, const char *modifier, char *index)
@@ -121,12 +121,14 @@ int handle_precision(va_list args, const char *modifier, char *index)
 	modifier++;
 	(*index)++;
 
-	if ((*modifier <= '0' || *modifier > '9') &&  *modifier != '*')
+	if ((*modifier <= '0' || *modifier > '9') && *modifier != '*')
 	{
 		if (*modifier == '0')
 			(*index)++;
 		return (0);
+
 	}
+
 
 	while ((*modifier >= '0' && *modifier <= '9') || (*modifier == '*'))
 	{
@@ -136,45 +138,40 @@ int handle_precision(va_list args, const char *modifier, char *index)
 			value = va_arg(args, int);
 			if (value <= 0)
 				return (0);
+
 			return (value);
 		}
 		value *= 10;
 		value += (*modifier - '0');
 		modifier++;
+
 	}
 	return (value);
 }
 
-
 /**
- * handle_specifiers - handle_specifiers
- * @char: char
- * @int: int
- * Return: pointer
+ * handle_specifiers - Matches a conversion specifier
+ * @char: char data type
+ * @int: int datatype
+ * Return: If a conversion function is matched - a pointer to the function.
+ *         Otherwise - NULL.
  */
-
 unsigned int (*handle_specifiers(const char *specifier))(va_list, buffer_t *,
 		unsigned char, int, int, unsigned char)
 {
 	int i;
-	converter_t converters[] = {
-		{'c', convert_c},
-		{'s', convert_s},
-		{'d', convert_di},
-		{'i', convert_di},
-		{'%', convert_percent},
-		{'b', convert_b},
-		{'u', convert_u},
-		{'o', convert_o},
-		{'x', convert_x},
-		{'X', convert_X},
-		{'S', convert_S},
-		{'p', convert_p},
-		{'r', convert_r},
-		{'R', convert_R},
-		{0, NULL}
-	};
 
+	converter_t converters[] = {
+		{'c', convert_c}, {'s', convert_s},
+		{'d', convert_di}, {'i', convert_di},
+		{'%', convert_percent}, {'b', convert_b},
+		{'u', convert_u}, {'o', convert_o},
+		{'x', convert_x}, {'X', convert_X},
+		{'S', convert_S}, {'p', convert_p},
+		{'p', convert_p}, {'r', convert_r},
+		{'R', convert_R}, {0, NULL}
+
+	};
 
 	for (i = 0; converters[i].func; i++)
 	{
