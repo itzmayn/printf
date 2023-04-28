@@ -1,15 +1,13 @@
 #include "main.h"
 
 /**
- * convert_di - Converts an argument to a signed int and
- *              stores it to a buffer contained in a struct.
- * @args: A va_list pointing to the argument to be converted.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @width: A width modifier.
- * @precision: A precision modifier.
- * @length: A length modifier.
- *
+ * convert_di - Converts an argument to a signed int
+ * @args: arguments.
+ * @output: buffer.
+ * @flags: Flag
+ * @width: width.
+ * @precision:  precision.
+ * @length: length
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int convert_di(va_list args, buffer_t *output,
@@ -25,10 +23,8 @@ unsigned int convert_di(va_list args, buffer_t *output,
 		d = va_arg(args, int);
 	if (length == SHORT)
 		d = (short)d;
-
 	if (SPACE_FLAG == 1 && d >= 0)
 		ret += _memcpy(output, &space, 1);
-
 	if (precision <= 0 && NEG_FLAG == 0)
 	{
 		if (d == LONG_MIN)
@@ -42,41 +38,35 @@ unsigned int convert_di(va_list args, buffer_t *output,
 		count += (d < 0) ? 1 : 0;
 		count += (PLUS_FLAG == 1 && d >= 0) ? 1 : 0;
 		count += (SPACE_FLAG == 1 && d >= 0) ? 1 : 0;
-
 		if (ZERO_FLAG == 1 && PLUS_FLAG == 1 && d >= 0)
 			ret += _memcpy(output, &plus, 1);
 		if (ZERO_FLAG == 1 && d < 0)
 			ret += _memcpy(output, &neg, 1);
-
 		pad = (ZERO_FLAG == 1) ? '0' : ' ';
 		for (width -= count; width > 0; width--)
 			ret += _memcpy(output, &pad, 1);
 	}
-
 	if (ZERO_FLAG == 0 && d < 0)
 		ret += _memcpy(output, &neg, 1);
 	if (ZERO_FLAG == 0 && (PLUS_FLAG == 1 && d >= 0))
 		ret += _memcpy(output, &plus, 1);
-
 	if (!(d == 0 && precision == 0))
-		ret += convert_sbase(output, d, "0123456789", flags, 0, precision);
-
-	ret += print_neg_width(output, ret, flags, width);
-
+		ret += convert_sbase(output, d,
+				"0123456789", flags, 0, precision);
+	ret += print_neg_width(output, ret,
+			flags, width);
 	return (ret);
 }
 
 /**
- * convert_b - Converts an unsigned int argument to binary
- *             and stores it to a buffer contained in a struct.
- * @args: A va_list pointing to the argument to be converted.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @width: A width modifier.
- * @precision: A precision modifier.
- * @length: A length modifier.
- *
- * Return: The number of bytes stored to the buffer.
+ * convert_b - Converts an unsigned int argument to binany
+ * @args: arguments.
+ * @output: buffer containing a character array.
+ * @flags: Flag
+ * @width: width
+ * @precision: precision
+ * @length: length
+ * Return: The number of bytes saved.
  */
 unsigned int convert_b(va_list args, buffer_t *output, unsigned char flags,
 		       int width, int precision, unsigned char length)
@@ -91,17 +81,14 @@ unsigned int convert_b(va_list args, buffer_t *output, unsigned char flags,
 }
 
 /**
- * convert_o - Converts an unsigned int to octal and
- *             stores it to a buffer contained in a struct.
- *
- * @args: A va_list pointing to the argument to be converted.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @width: A width modifier.
- * @precision: A precision modifier.
- * @length: A length modifier.
- *
- * Return: The number of bytes stored to the buffer.
+ * convert_o - Converts an unsigned int to octal
+ * @args: arguments.
+ * @output: buffer.
+ * @flags: Flag..
+ * @width: width.
+ * @precision:  precision
+ * @length: length
+ * Return: The number of bytes saved.
  */
 unsigned int convert_o(va_list args, buffer_t *output, unsigned char flags,
 		       int width, int precision, unsigned char length)

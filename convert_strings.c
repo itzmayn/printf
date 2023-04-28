@@ -1,16 +1,14 @@
 #include "main.h"
 
 /**
- * convert_s - Converts an argument to a string and stores it to a buffer
- *             contained in a struct.
- * @args: A va_list pointing to the argument to be converted.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @width: A width modifier.
- * @precision: A precision modifier.
- * @length: A length modifier.
- *
- * Return: The number of bytes stored to the buffer.
+ * convert_s - Converts an argument to a string and stores it to abuffer
+ * @args: arguments.
+ * @output: buffer.
+ * @flags: Flag
+ * @width: width
+ * @precision: precision
+ * @length: length
+ * Return:  bytes saved to the buffer.
  */
 unsigned int convert_s(va_list args, buffer_t *output,
 		unsigned char flags, int width, int precision, unsigned char length)
@@ -46,16 +44,13 @@ unsigned int convert_s(va_list args, buffer_t *output,
 
 /**
  * convert_S - Converts an argument to a string and stores it to a buffer
- *             contained in a struct.
- * @args: A va_list pointing to the argument to be converted.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @width: A width modifier.
- * @precision: A precision modifier.
- * @length: A length modifier.
- *
+ * @args: arguments
+ * @output: buffer.
+ * @flags: Flag
+ * @width: width
+ * @precision: precision
+ * @length: A length
  * Return: The number of bytes stored to the buffer.
- *
  * Description: Non-printable characteres (ASCII values < 32 or >= 127) are
  *              stored as \x followed by the ASCII code value in hex.
  */
@@ -99,14 +94,12 @@ unsigned int convert_S(va_list args, buffer_t *output,
 
 /**
  * convert_r - Reverses a string and stores it
- *             to a buffer contained in a struct.
- * @args: A va_list pointing to the string to be reversed.
- * @output: A buffer_t struct containing a character array.
- * @flags: Flag modifiers.
- * @wid: A width modifier.
- * @prec: A precision modifier.
- * @len: A length modifier.
- *
+ * @args: arguments.
+ * @output: buffer.
+ * @flags: Flag.
+ * @wid: width.
+ * @prec: precision.
+ * @len: length.
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int convert_r(va_list args, buffer_t *output, unsigned char flags,
