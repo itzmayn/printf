@@ -15,3 +15,6 @@ The three functions that serve as the bases for this project include:
 
 Contributors
 2
+
+- Maria Mothiba
+- Marwa Abu Essa
